@@ -10,11 +10,11 @@ namespace TennisKataTest
         [SetUp]
         public void Setup()
         {
-            player = new Player();
+            player = new Player("A");
         }
 
         [Test]
-        public void AddPointTest()
+        public void AddPointAddsOnePointTest()
         {
             player.ScorePoint();
 
@@ -22,7 +22,7 @@ namespace TennisKataTest
         }
 
         [Test]
-        public void AddGameTest()
+        public void AddGameAddsOneGameTest()
         {
             player.ScoreGame();
 
@@ -30,11 +30,28 @@ namespace TennisKataTest
         }
 
         [Test]
-        public void AddSetTest()
+        public void AddSetAddsOneSetTest()
         {
             player.ScoreSet();
 
             Assert.AreEqual(1, player.Score.Sets);
+        }
+
+        [Test]
+        public void ResetGamesResetsPointsAndGamesTest()
+        {
+            player.ResetGames();
+
+            Assert.AreEqual(0, player.Score.Games);
+            Assert.AreEqual(0, player.Score.Points);
+        }
+
+        [Test]
+        public void ResetPointsResetsPointsTest()
+        {
+            player.ResetPoints();
+
+            Assert.AreEqual(0, player.Score.Points);
         }
     }
 }
