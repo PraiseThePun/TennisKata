@@ -16,6 +16,8 @@ namespace TennisKataTest
         [Test]
         public void AddPointAddsOnePointTest()
         {
+            Assert.AreEqual(0, player.Score.Points);
+
             player.ScorePoint();
 
             Assert.AreEqual(1, player.Score.Points);
@@ -24,6 +26,8 @@ namespace TennisKataTest
         [Test]
         public void AddGameAddsOneGameTest()
         {
+            Assert.AreEqual(0, player.Score.Games);
+
             player.ScoreGame();
 
             Assert.AreEqual(1, player.Score.Games);
@@ -32,6 +36,8 @@ namespace TennisKataTest
         [Test]
         public void AddSetAddsOneSetTest()
         {
+            Assert.AreEqual(0, player.Score.Sets);
+
             player.ScoreSet();
 
             Assert.AreEqual(1, player.Score.Sets);
@@ -40,6 +46,12 @@ namespace TennisKataTest
         [Test]
         public void ResetGamesResetsPointsAndGamesTest()
         {
+            player.ScoreGame();
+            player.ScorePoint();
+
+            Assert.AreEqual(1, player.Score.Games);
+            Assert.AreEqual(1, player.Score.Points);
+
             player.ResetGames();
 
             Assert.AreEqual(0, player.Score.Games);
@@ -49,9 +61,31 @@ namespace TennisKataTest
         [Test]
         public void ResetPointsResetsPointsTest()
         {
+            player.ScorePoint();
+
+            Assert.AreEqual(1, player.Score.Points);
+
             player.ResetPoints();
 
             Assert.AreEqual(0, player.Score.Points);
+        }
+
+        [Test]
+        public void ResetAllResetsAll()
+        {
+            player.ScoreSet();
+            player.ScoreGame();
+            player.ScorePoint();
+
+            Assert.AreEqual(1, player.Score.Points);
+            Assert.AreEqual(1, player.Score.Games);
+            Assert.AreEqual(1, player.Score.Sets);
+
+            player.ResetAll();
+
+            Assert.AreEqual(0, player.Score.Points);
+            Assert.AreEqual(0, player.Score.Games);
+            Assert.AreEqual(0, player.Score.Sets);
         }
     }
 }

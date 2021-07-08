@@ -3,11 +3,11 @@ using TennisKata;
 
 namespace TennisKataTest
 {
-    public class PointCalculatorTest
+    public class GameTest
     {
         private Player playerA;
         private Player playerB;
-        private PointCalculator pointCalculator;
+        private Game pointCalculator;
         private const int MAX_SETS = 2;
 
         [SetUp]
@@ -15,7 +15,7 @@ namespace TennisKataTest
         {
             playerA = new Player("A");
             playerB = new Player("B");
-            pointCalculator = new PointCalculator(MAX_SETS);
+            pointCalculator = new Game(MAX_SETS);
         }
 
         [Test]

@@ -15,7 +15,7 @@
             Sets = 0;
         }
 
-        public override string ToString()
+        public string PointsToString()
         {
             return Points switch
             {

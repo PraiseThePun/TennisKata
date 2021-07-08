@@ -39,5 +39,12 @@
         {
             Score.Points = 0;
         }
+
+        public void ResetAll()
+        {
+            Score.Points = 0;
+            Score.Games = 0;
+            Score.Sets = 0;
+        }
     }
 }

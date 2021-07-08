@@ -16,7 +16,7 @@ namespace TennisKataTest
         [Test]
         public void ToStringReturnsZeroWhenPointsIsZero()
         {
-            var result = score.ToString();
+            var result = score.PointsToString();
 
             Assert.AreEqual("zero", result);
         }
@@ -25,7 +25,7 @@ namespace TennisKataTest
         public void ToStringReturnsFifteenWhenPointsIsOne()
         {
             score.Points = 1;
-            var result = score.ToString();
+            var result = score.PointsToString();
 
             Assert.AreEqual("fifteen", result);
         }
@@ -34,7 +34,7 @@ namespace TennisKataTest
         public void ToStringReturnsThirtyWhenPointsIsTwo()
         {
             score.Points = 2;
-            var result = score.ToString();
+            var result = score.PointsToString();
 
             Assert.AreEqual("thirty", result);
         }
@@ -43,7 +43,7 @@ namespace TennisKataTest
         public void ToStringReturnsFourtyWhenPointsIsThree()
         {
             score.Points = 3;
-            var result = score.ToString();
+            var result = score.PointsToString();
 
             Assert.AreEqual("fourty", result);
         }

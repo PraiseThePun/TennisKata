@@ -1,13 +1,14 @@
 ﻿namespace TennisKata
 {
-    public class PointCalculator
+    public class Game
     {
         private readonly int maxNumOfSets;
-        private readonly int gamesToWinSet = 6;
+        private const int GAMES_TO_WIN_SET = 6;
+        private const int POINTS_TO_WIN_GAME = 3;
 
-        public PointCalculator(int maxNumOfSets)
+        public Game(int setsToWin)
         {
-            this.maxNumOfSets = maxNumOfSets;
+            this.maxNumOfSets = setsToWin;
         }
 
         private string PerformPlayerScoreActions(Player playerThatWon, Player playerThatLost)
@@ -31,12 +32,17 @@
             }
 
             if (CheckGameIsOver(playerThatWon.Score))
+            {
                 result += "\nPlayer " + playerThatWon.Name + " wins the match!";
 
-            if(CheckIfItsDeuce(playerThatWon.Score, playerThatLost.Score))
+                playerThatWon.ResetAll();
+                playerThatLost.ResetAll();
+            }
+
+            if(CheckIfDeuce(playerThatWon.Score, playerThatLost.Score))
                 result += "Deuce!";
 
-            if (CheckIfItsAdvantadge(playerThatWon.Score, playerThatLost.Score))
+            if (CheckIfIAdvantage(playerThatWon.Score, playerThatLost.Score))
                 result += "Advantage for player " + playerThatWon.Name;
 
             return result;
@@ -49,7 +55,7 @@
             var result = PerformPlayerScoreActions(playerThatWon, playerThatLost);
 
             if (string.IsNullOrEmpty(result))
-                result += "Player " + playerThatWon.Name + " scored. " + playerThatWon.Score.ToString() + " - " + playerThatLost.Score.ToString();
+                result += "Player " + playerThatWon.Name + " scored. " + playerThatWon.Score.PointsToString() + " - " + playerThatLost.Score.PointsToString();
 
             return result;
         }
@@ -63,22 +69,22 @@
         {
             var diff = playerThatWon.Points - playerThatLost.Points;
 
-            return playerThatWon.Points > 3 && diff > 1;
+            return playerThatWon.Points > POINTS_TO_WIN_GAME && diff > 1;
         }
 
-        private bool CheckPlayerWonSet(Score playerThatWon)
+        private static bool CheckPlayerWonSet(Score playerThatWon)
         {
-            return playerThatWon.Games == gamesToWinSet;
+            return playerThatWon.Games == GAMES_TO_WIN_SET;
         }
 
-        private static bool CheckIfItsAdvantadge(Score playerThatWon, Score playerThatLost)
+        private static bool CheckIfIAdvantage(Score playerThatWon, Score playerThatLost)
         {
-            return playerThatWon.Points >= 3 && playerThatLost.Points >= 3 && playerThatWon.Points != playerThatLost.Points;
+            return playerThatWon.Points >= POINTS_TO_WIN_GAME && playerThatLost.Points >= POINTS_TO_WIN_GAME && playerThatWon.Points != playerThatLost.Points;
         }
 
-        private static bool CheckIfItsDeuce(Score playerThatWon, Score playerThatLost)
+        private static bool CheckIfDeuce(Score playerThatWon, Score playerThatLost)
         {
-            return playerThatWon.Points >= 3 && playerThatLost.Points >= 3 && playerThatWon.Points == playerThatLost.Points;
+            return playerThatWon.Points >= POINTS_TO_WIN_GAME && playerThatLost.Points >= POINTS_TO_WIN_GAME && playerThatWon.Points == playerThatLost.Points;
         }
     }
 }
