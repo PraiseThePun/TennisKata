@@ -7,7 +7,7 @@ namespace TennisKataTest
     {
         private Player playerA;
         private Player playerB;
-        private Game pointCalculator;
+        private Game game;
         private const int MAX_SETS = 2;
 
         [SetUp]
@@ -15,13 +15,13 @@ namespace TennisKataTest
         {
             playerA = new Player("A");
             playerB = new Player("B");
-            pointCalculator = new Game(MAX_SETS);
+            game = new Game(MAX_SETS);
         }
 
         [Test]
         public void PlayerAScoresFifteenZero()
         {
-            var result = pointCalculator.PlayerScores(playerA, playerB);
+            var result = game.PlayerScores(playerA, playerB);
 
             Assert.AreEqual("Player A scored. fifteen - zero", result);
         }
@@ -33,7 +33,7 @@ namespace TennisKataTest
 
             for (int i = 0; i < 4; i++)
             {
-                result = pointCalculator.PlayerScores(playerA, playerB);
+                result = game.PlayerScores(playerA, playerB);
             }
 
             Assert.AreEqual("Game! 1 - 0 for player A", result);
@@ -46,7 +46,7 @@ namespace TennisKataTest
 
             for (int i = 0; i < 24; i++)
             {
-                result = pointCalculator.PlayerScores(playerA, playerB);
+                result = game.PlayerScores(playerA, playerB);
             }
 
             Assert.AreEqual("Game! 6 - 0 for player A\nSet! 1 - 0 for player A", result);
@@ -59,7 +59,7 @@ namespace TennisKataTest
 
             for (int i = 0; i < 48; i++)
             {
-                result = pointCalculator.PlayerScores(playerA, playerB);
+                result = game.PlayerScores(playerA, playerB);
             }
 
             Assert.AreEqual("Game! 6 - 0 for player A\nSet! 2 - 0 for player A\nPlayer A wins the match!", result);
@@ -72,8 +72,8 @@ namespace TennisKataTest
 
             for (int i = 0; i < 3; i++)
             {
-                _ = pointCalculator.PlayerScores(playerA, playerB);
-                result = pointCalculator.PlayerScores(playerB, playerA);
+                _ = game.PlayerScores(playerA, playerB);
+                result = game.PlayerScores(playerB, playerA);
             }
 
             Assert.AreEqual("Deuce!", result);
@@ -84,13 +84,27 @@ namespace TennisKataTest
         {
             for (int i = 0; i < 3; i++)
             {
-                _ = pointCalculator.PlayerScores(playerA, playerB);
-                _ = pointCalculator.PlayerScores(playerB, playerA);
+                _ = game.PlayerScores(playerA, playerB);
+                _ = game.PlayerScores(playerB, playerA);
             }
 
-            var result = pointCalculator.PlayerScores(playerA, playerB);
+            var result = game.PlayerScores(playerA, playerB);
 
             Assert.AreEqual("Advantage for player A", result);
+        }
+
+        [Test]
+        public void PlayerAWinsByLimitPointExceeded()
+        {
+            game = new Game(417);
+            var result = "";
+
+            for (int i = 0; i < 10001; i++)
+            {
+                result = game.PlayerScores(playerA, playerB);
+            }
+
+            Assert.AreEqual("\nThe point limit has been exceeded. Player A wins the match!", result);
         }
     }
 }

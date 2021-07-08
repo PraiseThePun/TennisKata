@@ -5,10 +5,13 @@
         private readonly int maxNumOfSets;
         private const int GAMES_TO_WIN_SET = 6;
         private const int POINTS_TO_WIN_GAME = 3;
+        private const int POINT_LIMIT = 10000;
+        private int pointsCounter;
 
         public Game(int setsToWin)
         {
             this.maxNumOfSets = setsToWin;
+            this.pointsCounter = 0;
         }
 
         private string PerformPlayerScoreActions(Player playerThatWon, Player playerThatLost)
@@ -51,6 +54,13 @@
         public string PlayerScores(Player playerThatWon, Player playerThatLost)
         {
             playerThatWon.ScorePoint();
+            pointsCounter++;
+
+            if(pointsCounter >= POINT_LIMIT)
+            {
+                var winner = CheckWinnerPointsExceeded(playerThatWon, playerThatLost);
+                return "\nThe point limit has been exceeded. Player " + winner.Name + " wins the match!";
+            }
 
             var result = PerformPlayerScoreActions(playerThatWon, playerThatLost);
 
@@ -58,6 +68,25 @@
                 result += "Player " + playerThatWon.Name + " scored. " + playerThatWon.Score.PointsToString() + " - " + playerThatLost.Score.PointsToString();
 
             return result;
+        }
+
+        private Player CheckWinnerPointsExceeded(Player playerA, Player playerB)
+        {
+            if(playerA.Score.Sets == playerB.Score.Sets)
+            {
+                if (playerA.Score.Games == playerB.Score.Games)
+                {
+                    return playerA.Score.Points > playerB.Score.Points ? playerA : playerB;
+                }
+                else
+                {
+                    return playerA.Score.Games > playerB.Score.Games ? playerA : playerB;
+                }
+            }
+            else
+            {
+                return playerA.Score.Sets > playerB.Score.Sets ? playerA : playerB;
+            }
         }
 
         private bool CheckGameIsOver(Score playerThatWon)
